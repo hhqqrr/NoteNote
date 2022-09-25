@@ -9,6 +9,10 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import myproject.sg.notenote.mainfragments.HistoryFragment;
+import myproject.sg.notenote.mainfragments.HomeFragment;
+import myproject.sg.notenote.mainfragments.NotesFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
