@@ -1,5 +1,7 @@
 package myproject.sg.notenote;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +52,18 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
                 }
             }
         });
+
+        //edit row
+        holder.editRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(holder.itemView.getContext(), CreateNotif.class);
+                i.putExtra("mode","edit");
+                i.putExtra("notif", notif);
+                holder.itemView.getContext().startActivity(i);
+            }
+        });
+
         //delete row
         holder.deleteRow.setOnClickListener(new View.OnClickListener() {
             @Override

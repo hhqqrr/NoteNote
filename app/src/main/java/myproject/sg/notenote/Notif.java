@@ -1,6 +1,8 @@
 package myproject.sg.notenote;
 
-public class Notif {
+import java.io.Serializable;
+
+public class Notif implements Serializable {
     private String uid;
     private String instant;
     private String title;

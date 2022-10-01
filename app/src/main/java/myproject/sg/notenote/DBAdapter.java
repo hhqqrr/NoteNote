@@ -48,6 +48,14 @@ public class DBAdapter extends SQLiteOpenHelper {
         db.close();
     }
 
+    //function to edit notification
+    public void editNotif(Notif notif, String newTitle, String newMessage){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE NOTIF SET TITLE = " + "\"" + newTitle + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
+        db.execSQL("UPDATE NOTIF SET MESSAGE = " + "\"" + newMessage + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
+    }
+
+    //function to delete notification
     public void deleteNotif(Notif notif, Context c){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM NOTIF WHERE UID = " + "\"" + notif.getUid() + "\"");
@@ -55,6 +63,7 @@ public class DBAdapter extends SQLiteOpenHelper {
         notificationManager.cancel(notif.getBuilderId());
     }
 
+    //function to 'complete' notification
     public void completeNotif(Notif notif, Context c){// status 1 means notification is completed
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE NOTIF SET STATUS = " + "\"1\"" + "WHERE UID = " + "\"" + notif.getUid() + "\"");
@@ -62,6 +71,7 @@ public class DBAdapter extends SQLiteOpenHelper {
         notificationManager.cancel(notif.getBuilderId());
     }
 
+    //function to get the list of the notif using status
     public ArrayList<Notif> getNotifList(String status){// status 0 means active notification
         String query = "SELECT * FROM NOTIF WHERE STATUS = " + "\"" + status + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -85,6 +95,7 @@ public class DBAdapter extends SQLiteOpenHelper {
         return notifList;
     }
 
+    //function to create a builder id for the notification channel
     public int createIdNotif(){//get max of the builderid column and add one
         String query = "SELECT MAX(BUILDERID) FROM NOTIF";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -95,6 +106,7 @@ public class DBAdapter extends SQLiteOpenHelper {
         return count;
     }
 
+    //function to create phone notification for a notif obj
     public void createPhoneNotif(Notif notif, Context c){
         Intent i = new Intent(c,MainActivity.class);
         PendingIntent intent = PendingIntent.getActivity(c, 1,
