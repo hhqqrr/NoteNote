@@ -65,7 +65,7 @@ public class CreateNotif extends AppCompatActivity {
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onClick(View view) {
-                    if(!titleInput.getText().toString().matches("") || !messageInput.getText().toString().matches("")){//check if input is null
+                    if((titleInput.getText().toString().matches("") == false) && (messageInput.getText().toString().matches("") == false)){//check if input is null
                         Notif notif = new Notif(UUID.randomUUID().toString(), Instant.now().toString(),titleInput.getText().toString().trim(), messageInput.getText().toString().trim(), "0",db.createIdNotif());
                         db.addNotif(notif);//db function to insert obj to sqlite
                         db.createPhoneNotif(notif,CreateNotif.this);//create notificaton on phone
@@ -80,15 +80,19 @@ public class CreateNotif extends AppCompatActivity {
         else{//edit previous notification mode
             titleActivity.setText("Edit Notification");
             createBtn.setText("Save");
+            titleInput.setText(notifToEdit.getTitle());
+            messageInput.setText(notifToEdit.getMessage());
             createBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!titleInput.getText().toString().matches("") && !messageInput.getText().toString().matches("")){
-                        db.editNotif(notifToEdit, titleInput.getText().toString().trim(), messageInput.getText().toString().trim(), CreateNotif.this);
-                        finish();
+                    if((titleInput.getText().toString().matches("") == false) && (messageInput.getText().toString().matches("") == false)){
+                        Boolean executed = db.editNotif(notifToEdit, titleInput.getText().toString().trim(), messageInput.getText().toString().trim(), CreateNotif.this);
+                        if(executed){//function returns true if the query is executed
+                            finish();
+                        }//else do nothing
                     }
                     else{//validation error
-                        Toast.makeText(CreateNotif.this,"Please edit at least one field",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateNotif.this,"Please fill in all fields",Toast.LENGTH_SHORT).show();
                     }
                 }
             });

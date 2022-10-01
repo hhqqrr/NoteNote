@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -68,12 +69,16 @@ public class DBAdapter extends SQLiteOpenHelper {
     }
 
     //function to edit notification
-    public void editNotif(Notif notif, String newTitle, String newMessage, Context c){
+    public boolean editNotif(Notif notif, String newTitle, String newMessage, Context c){
         SQLiteDatabase db = this.getWritableDatabase();
-        if(!newTitle.matches("")){//if new title is not empty
+        if(newTitle.equals(notif.getTitle()) && newMessage.equals(notif.getMessage())){
+            Toast.makeText(c,"Please edit at least one field", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!newTitle.equals(notif.getTitle())){//if new title is not the same as previous
             db.execSQL("UPDATE NOTIF SET TITLE = " + "\"" + newTitle + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
         }
-        if(!newMessage.matches("")){//if new message is not empty
+        if(!newMessage.equals(notif.getMessage())){//if new message is not the same as previous
             db.execSQL("UPDATE NOTIF SET MESSAGE = " + "\"" + newMessage + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
         }
 
@@ -81,6 +86,7 @@ public class DBAdapter extends SQLiteOpenHelper {
         NotificationManager notificationManager = (NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(notif.getBuilderId());
         createPhoneNotif(getNotifById(notif.getUid()), c);
+        return true;
     }
 
     //function to delete notification
