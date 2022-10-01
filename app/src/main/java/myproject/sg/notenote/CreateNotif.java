@@ -2,9 +2,14 @@ package myproject.sg.notenote;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +17,8 @@ import android.widget.TextView;
 
 import java.time.Instant;
 import java.util.UUID;
+
+import myproject.sg.notenote.mainfragments.HomeFragment;
 
 public class CreateNotif extends AppCompatActivity {
 
@@ -35,8 +42,9 @@ public class CreateNotif extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!titleInput.getText().toString().matches("") || !messageInput.getText().toString().matches("")){//check if input is null
-                    Notif notif = new Notif(UUID.randomUUID().toString(), Instant.now().toString(),titleInput.getText().toString(), messageInput.getText().toString(), "0");
-                    db.addNotif(notif);
+                    Notif notif = new Notif(UUID.randomUUID().toString(), Instant.now().toString(),titleInput.getText().toString(), messageInput.getText().toString(), "0",db.createIdNotif());
+                    db.addNotif(notif);//db function to insert obj to sqlite
+                    db.createPhoneNotif(notif,CreateNotif.this);//create notificaton on phone
                     finish();
                 }
             }

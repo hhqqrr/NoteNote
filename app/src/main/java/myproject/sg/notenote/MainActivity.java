@@ -2,12 +2,19 @@ package myproject.sg.notenote;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
 
 import myproject.sg.notenote.mainfragments.HistoryFragment;
 import myproject.sg.notenote.mainfragments.HomeFragment;
@@ -24,9 +31,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //MainActivity.this.deleteDatabase("data.db");
         bottomNavigationView = findViewById(R.id.bottomNavView);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer,homeFragment).commit();
+
+        DBAdapter db = new DBAdapter(this);
+        ArrayList<Notif> notifs = new ArrayList<>();
+        notifs = db.getNotifList("0");//get actve notifs
+        for (Notif n: notifs) {
+            db.createPhoneNotif(n,MainActivity.this);//create notificaton on phone
+        }
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

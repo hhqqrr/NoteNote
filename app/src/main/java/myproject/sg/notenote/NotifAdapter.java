@@ -54,7 +54,7 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
         holder.deleteRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.deleteNotif(notif.getUid());
+                db.deleteNotif(notif, view.getContext());
                 notifList.remove(holder.getAdapterPosition());
                 NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
             }
@@ -64,7 +64,7 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
         holder.completeRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.completeNotif(notif.getUid());
+                db.completeNotif(notif, view.getContext());
                 notifList.remove(holder.getAdapterPosition());
                 NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
             }

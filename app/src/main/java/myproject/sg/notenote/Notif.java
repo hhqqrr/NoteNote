@@ -6,17 +6,19 @@ public class Notif {
     private String title;
     private String message;
     private String status; //status of the message 0:Active, 1: Completed
+    private int builderId;
 
     public Notif(){
         //default constructor
     }
 
-    public Notif(String uid, String instant, String title, String message, String status) {
+    public Notif(String uid, String instant, String title, String message, String status, Integer builderId) {
         this.uid = uid;
         this.instant = instant;
         this.title = title;
         this.message = message;
         this.status = status;
+        this.builderId = builderId;
     }
 
     public String getUid() {
@@ -57,5 +59,13 @@ public class Notif {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getBuilderId() {
+        return builderId;
+    }
+
+    public void setBuilderId(int builderId) {
+        this.builderId = builderId;
     }
 }

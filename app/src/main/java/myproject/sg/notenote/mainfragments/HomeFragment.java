@@ -1,5 +1,7 @@
 package myproject.sg.notenote.mainfragments;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,6 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationChannelCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +30,7 @@ import java.util.Comparator;
 
 import myproject.sg.notenote.CreateNotif;
 import myproject.sg.notenote.DBAdapter;
+import myproject.sg.notenote.MainActivity;
 import myproject.sg.notenote.Notif;
 import myproject.sg.notenote.NotifAdapter;
 import myproject.sg.notenote.R;
@@ -63,6 +69,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         notifCreate = view.findViewById(R.id.notifCreateBtn);
         notifRecycler = view.findViewById(R.id.notifRecycler);
         notifList = new ArrayList<>();
