@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.3635" />
+        <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/drawable/ic_baseline_edit_note_24.xml" value="0.1565" />
         <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/drawable/ic_baseline_mode_edit_24.xml" value="0.3635" />
+        <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/drawable/ic_baseline_restore_24.xml" value="0.1565" />
         <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/layout/activity_create_notif.xml" value="0.3625" />
+        <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/layout/fragment_history.xml" value="0.4" />
         <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/layout/fragment_home.xml" value="0.4" />
         <entry key="..\:/Users/qiren/Desktop/MyProjects/NoteNote/app/src/main/res/layout/notif_row.xml" value="0.4" />
         <entry key="..\:/Users/qiren/Desktop/NoteNote/app/src/main/res/drawable/bottom_main_selector.xml" value="0.3635" />

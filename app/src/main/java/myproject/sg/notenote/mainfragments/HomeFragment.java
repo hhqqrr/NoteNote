@@ -54,11 +54,6 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -78,7 +73,7 @@ public class HomeFragment extends Fragment {
         notifList = db.getNotifList("0");
         Collections.sort(notifList, notifComparator);
 
-        notifAdapter = new NotifAdapter(notifList);
+        notifAdapter = new NotifAdapter(notifList, 0);//viewtpe 0 for active notif, 1 for history
 
         linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         notifRecycler.setLayoutManager(linearLayoutManager);

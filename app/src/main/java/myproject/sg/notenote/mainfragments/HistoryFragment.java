@@ -1,60 +1,47 @@
 package myproject.sg.notenote.mainfragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+import myproject.sg.notenote.DBAdapter;
+import myproject.sg.notenote.Notif;
+import myproject.sg.notenote.NotifAdapter;
 import myproject.sg.notenote.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HistoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class HistoryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ArrayList<Notif> notifList;
+    RecyclerView historyRecycler;
+    NotifAdapter historyAdapter;
+    LinearLayoutManager linearLayoutManager;
+    DBAdapter db;
 
     public HistoryFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HistoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HistoryFragment newInstance(String param1, String param2) {
+    public static HistoryFragment newInstance() {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -63,4 +50,33 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        historyRecycler = view.findViewById(R.id.historyRecycler);
+        notifList = new ArrayList<>();
+
+        db = new DBAdapter(getContext());
+
+        notifList = db.getNotifList("1");//status 1 indicates completed (aka history)
+        Collections.sort(notifList, notifComparator);
+
+        historyAdapter = new NotifAdapter(notifList,1);//0 for active notif obj, 1 for history
+
+        linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        historyRecycler.setLayoutManager(linearLayoutManager);
+        historyRecycler.setItemAnimator(new DefaultItemAnimator());
+        historyRecycler.setAdapter(historyAdapter);//set adapter
+    }
+
+    public Comparator<Notif> notifComparator = new Comparator<Notif>() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public int compare(Notif p1, Notif p2) {
+            int l1 = Instant.parse(p2.getInstant()).compareTo(Instant.parse(p1.getInstant()));
+            return l1;
+        }
+    };
 }

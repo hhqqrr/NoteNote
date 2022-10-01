@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHolder> {
 
     ArrayList<Notif> notifList;
+    int viewType; //view type, 0 for active notif obj, 1 for history
     DBAdapter db;
 
-    public NotifAdapter(ArrayList<Notif> _notifList){
+    public NotifAdapter(ArrayList<Notif> _notifList, int _viewType){
         this.notifList = _notifList;
+        this.viewType = _viewType;
     }
 
     @NonNull
@@ -40,49 +42,62 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
         holder.messageRow.setText(notif.getMessage());
         holder.optionsRow.setVisibility(View.GONE);//default to hide the options
 
-        //expand options
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(holder.optionsRow.getVisibility() == View.GONE){
-                    holder.optionsRow.setVisibility(View.VISIBLE);
+        if (viewType == 0){//viewtype 0 means active notif obj
+            //expand options
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(holder.optionsRow.getVisibility() == View.GONE){
+                        holder.optionsRow.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        holder.optionsRow.setVisibility(View.GONE);
+                    }
                 }
-                else{
-                    holder.optionsRow.setVisibility(View.GONE);
+            });
+
+            //edit row
+            holder.editRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(holder.itemView.getContext(), CreateNotif.class);
+                    i.putExtra("mode","edit");
+                    i.putExtra("notif", notif);
+                    holder.itemView.getContext().startActivity(i);
                 }
-            }
-        });
+            });
 
-        //edit row
-        holder.editRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(holder.itemView.getContext(), CreateNotif.class);
-                i.putExtra("mode","edit");
-                i.putExtra("notif", notif);
-                holder.itemView.getContext().startActivity(i);
-            }
-        });
+            //delete row
+            holder.deleteRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    db.deleteNotif(notif, view.getContext());
+                    notifList.remove(holder.getAdapterPosition());
+                    NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                }
+            });
 
-        //delete row
-        holder.deleteRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.deleteNotif(notif, view.getContext());
-                notifList.remove(holder.getAdapterPosition());
-                NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
-            }
-        });
-
-        //complete row
-        holder.completeRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.completeNotif(notif, view.getContext());
-                notifList.remove(holder.getAdapterPosition());
-                NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
-            }
-        });
+            //complete row
+            holder.completeRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    db.completeNotif(notif, view.getContext());
+                    notifList.remove(holder.getAdapterPosition());
+                    NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                }
+            });
+        }
+        else{//viewtype 1, which is the view for history obj
+            holder.editRow.setImageDrawable(holder.itemView.getResources().getDrawable(R.drawable.ic_baseline_restore_24));
+            holder.editRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    db.restoreNotif(notif, holder.itemView.getContext());
+                    notifList.remove(holder.getAdapterPosition());
+                    NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                }
+            });
+        }
     }
 
     @Override

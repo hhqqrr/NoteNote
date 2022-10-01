@@ -95,6 +95,13 @@ public class DBAdapter extends SQLiteOpenHelper {
         notificationManager.cancel(notif.getBuilderId());
     }
 
+    //function to restore previously completed notif obj
+    public void restoreNotif(Notif notif, Context c){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE NOTIF SET STATUS = " + "\"0\"" + "WHERE UID = " + "\"" + notif.getUid() + "\"");
+        createPhoneNotif(getNotifById(notif.getUid()), c);
+    }
+
     //function to get the list of the notif using status
     public ArrayList<Notif> getNotifList(String status){// status 0 means active notification
         String query = "SELECT * FROM NOTIF WHERE STATUS = " + "\"" + status + "\"";
