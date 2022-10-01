@@ -67,16 +67,6 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
                 }
             });
 
-            //delete row
-            holder.deleteRow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    db.deleteNotif(notif, view.getContext());
-                    notifList.remove(holder.getAdapterPosition());
-                    NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
-                }
-            });
-
             //complete row
             holder.completeRow.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,8 +78,9 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
             });
         }
         else{//viewtype 1, which is the view for history obj
-            holder.editRow.setImageDrawable(holder.itemView.getResources().getDrawable(R.drawable.ic_baseline_restore_24));
-            holder.editRow.setOnClickListener(new View.OnClickListener() {
+            holder.completeRow.setVisibility(View.GONE);//hide the complete button since alr completed
+            holder.editRow.setImageDrawable(holder.itemView.getResources().getDrawable(R.drawable.ic_baseline_restart_alt_24));
+            holder.editRow.setOnClickListener(new View.OnClickListener() {//change the drawable to 'restore'
                 @Override
                 public void onClick(View view) {
                     db.restoreNotif(notif, holder.itemView.getContext());
@@ -97,7 +88,30 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
                     NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
                 }
             });
+
+            //onclick to give users options to delete
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(holder.optionsRow.getVisibility() == View.GONE){
+                        holder.optionsRow.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        holder.optionsRow.setVisibility(View.GONE);
+                    }
+                }
+            });
+
         }
+        //delete row (applies to both viewtypes
+        holder.deleteRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.deleteNotif(notif, view.getContext());
+                notifList.remove(holder.getAdapterPosition());
+                NotifAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override

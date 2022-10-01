@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".CreateNotif">
 
     <androidx.cardview.widget.CardView
@@ -17,16 +18,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" >
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#F3F1EB">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="#FFFFFF"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,17 +40,26 @@
 
                 <EditText
                     android:id="@+id/titleInput"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
-                    android:hint="Title"
-                    android:inputType="textPersonName"
-                    android:paddingStart="16dp" />
+                    android:hint="max: 20 char"
+                    android:inputType="textMultiLine|textPersonName"
+                    android:maxLength="20"
+                    android:padding="16dp"
+                    android:textColor="#4E4E4E"
+                    android:textColorHint="#ACACAC" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:background="#FFFFFF"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,30 +67,38 @@
 
                 <EditText
                     android:id="@+id/messageInput"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
-                    android:hint="Message"
-                    android:inputType="textPersonName"
-                    android:paddingStart="16dp" />
+                    android:hint="max: 100 char"
+                    android:inputType="textMultiLine|textPersonName"
+                    android:maxLength="100"
+                    android:padding="16dp"
+                    android:textColor="#4E4E4E"
+                    android:textColorHint="#ACACAC" />
             </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
                 android:layout_marginTop="16dp"
                 android:text="Title"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="Message"
+                android:textColor="#000000"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
@@ -97,6 +120,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -108,8 +132,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="Create Notification"
+            android:textAllCaps="false"
+            android:textColor="#F57C00"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

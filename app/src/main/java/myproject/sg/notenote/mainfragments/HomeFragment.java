@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,8 +101,11 @@ public class HomeFragment extends Fragment {
     };
 
     @Override
-    public void onResume() {
+    public void onResume() {//so that changes will be reflected
         super.onResume();
-        notifAdapter.notifyDataSetChanged();
+        notifList = db.getNotifList("0");
+        Collections.sort(notifList, notifComparator);
+        notifAdapter = new NotifAdapter(notifList, 0);//viewtpe 0 for active notif, 1 for history
+        notifRecycler.setAdapter(notifAdapter);//set adapter
     }
 }

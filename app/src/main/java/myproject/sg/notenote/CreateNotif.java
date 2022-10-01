@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -65,10 +66,13 @@ public class CreateNotif extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(!titleInput.getText().toString().matches("") || !messageInput.getText().toString().matches("")){//check if input is null
-                        Notif notif = new Notif(UUID.randomUUID().toString(), Instant.now().toString(),titleInput.getText().toString(), messageInput.getText().toString(), "0",db.createIdNotif());
+                        Notif notif = new Notif(UUID.randomUUID().toString(), Instant.now().toString(),titleInput.getText().toString().trim(), messageInput.getText().toString().trim(), "0",db.createIdNotif());
                         db.addNotif(notif);//db function to insert obj to sqlite
                         db.createPhoneNotif(notif,CreateNotif.this);//create notificaton on phone
                         finish();
+                    }
+                    else{//validation error
+                        Toast.makeText(CreateNotif.this,"Please fill in all fields",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -79,9 +83,12 @@ public class CreateNotif extends AppCompatActivity {
             createBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!titleInput.getText().toString().matches("") || !messageInput.getText().toString().matches("")){
-                        db.editNotif(notifToEdit, titleInput.getText().toString(), messageInput.getText().toString(), CreateNotif.this);
+                    if(!titleInput.getText().toString().matches("") && !messageInput.getText().toString().matches("")){
+                        db.editNotif(notifToEdit, titleInput.getText().toString().trim(), messageInput.getText().toString().trim(), CreateNotif.this);
                         finish();
+                    }
+                    else{//validation error
+                        Toast.makeText(CreateNotif.this,"Please edit at least one field",Toast.LENGTH_SHORT).show();
                     }
                 }
             });

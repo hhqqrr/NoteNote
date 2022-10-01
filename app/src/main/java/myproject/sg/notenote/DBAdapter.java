@@ -70,8 +70,12 @@ public class DBAdapter extends SQLiteOpenHelper {
     //function to edit notification
     public void editNotif(Notif notif, String newTitle, String newMessage, Context c){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE NOTIF SET TITLE = " + "\"" + newTitle + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
-        db.execSQL("UPDATE NOTIF SET MESSAGE = " + "\"" + newMessage + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
+        if(!newTitle.matches("")){//if new title is not empty
+            db.execSQL("UPDATE NOTIF SET TITLE = " + "\"" + newTitle + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
+        }
+        if(!newMessage.matches("")){//if new message is not empty
+            db.execSQL("UPDATE NOTIF SET MESSAGE = " + "\"" + newMessage + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
+        }
 
         //delete n recreate notification
         NotificationManager notificationManager = (NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
