@@ -80,7 +80,7 @@ public class CreateNotif extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(!titleInput.getText().toString().matches("") || !messageInput.getText().toString().matches("")){
-                        db.editNotif(notifToEdit, titleInput.getText().toString(), messageInput.getText().toString());
+                        db.editNotif(notifToEdit, titleInput.getText().toString(), messageInput.getText().toString(), CreateNotif.this);
                         finish();
                     }
                 }

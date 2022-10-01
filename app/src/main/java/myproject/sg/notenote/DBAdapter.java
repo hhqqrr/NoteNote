@@ -48,11 +48,35 @@ public class DBAdapter extends SQLiteOpenHelper {
         db.close();
     }
 
+    public Notif getNotifById(String uid){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Notif notif = new Notif();
+        Cursor cursor =  db.rawQuery("SELECT * FROM NOTIF WHERE UID = " + "\"" + uid + "\"", null);
+        try {//add all to a list
+            while(cursor.moveToNext()) {
+                notif.setUid(cursor.getString(0));
+                notif.setInstant(cursor.getString(1));
+                notif.setTitle(cursor.getString(2));
+                notif.setMessage(cursor.getString(3));
+                notif.setStatus(cursor.getString(4));
+                notif.setBuilderId(cursor.getInt(5));
+            }
+        } finally {
+            cursor.close();
+        }
+        return notif;
+    }
+
     //function to edit notification
-    public void editNotif(Notif notif, String newTitle, String newMessage){
+    public void editNotif(Notif notif, String newTitle, String newMessage, Context c){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE NOTIF SET TITLE = " + "\"" + newTitle + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
         db.execSQL("UPDATE NOTIF SET MESSAGE = " + "\"" + newMessage + "\"" + " WHERE UID = " + "\"" + notif.getUid() + "\"");
+
+        //delete n recreate notification
+        NotificationManager notificationManager = (NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(notif.getBuilderId());
+        createPhoneNotif(getNotifById(notif.getUid()), c);
     }
 
     //function to delete notification
