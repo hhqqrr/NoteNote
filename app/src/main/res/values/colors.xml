@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="highlight_orange">#F57C00</color>
     <color name="not_selected">#B3B3B3</color>
+    <color name="highlight_blue">#FF068CF6</color>
+    <color name="background_grey">#888888</color>
 </resources>

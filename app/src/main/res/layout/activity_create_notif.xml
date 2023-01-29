@@ -23,7 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F3F1EB">
+            android:background="@color/background_grey">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Title"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Message"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:backgroundTint="#FFA000"
+                android:backgroundTint="@color/highlight_blue"
                 android:text="Create"
                 app:cornerRadius="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -133,7 +133,7 @@
             android:layout_marginBottom="8dp"
             android:text="Create Notification"
             android:textAllCaps="false"
-            android:textColor="#F57C00"
+            android:textColor="@color/highlight_blue"
             android:textSize="20sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
