@@ -10,18 +10,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class DBAdapter extends SQLiteOpenHelper {
-    public DBAdapter(Context c) {
+public class NotifDBAdapter extends SQLiteOpenHelper {
+    public NotifDBAdapter(Context c) {
         super(c, "data.db", null, 1);
     }
 

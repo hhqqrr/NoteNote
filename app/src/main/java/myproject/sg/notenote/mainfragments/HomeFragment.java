@@ -1,7 +1,5 @@
 package myproject.sg.notenote.mainfragments;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,15 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationChannelCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import myproject.sg.notenote.CreateNotif;
-import myproject.sg.notenote.DBAdapter;
-import myproject.sg.notenote.MainActivity;
+import myproject.sg.notenote.CreateNote;
+import myproject.sg.notenote.NotifDBAdapter;
 import myproject.sg.notenote.Notif;
 import myproject.sg.notenote.NotifAdapter;
 import myproject.sg.notenote.R;
@@ -43,7 +36,7 @@ public class HomeFragment extends Fragment {
     RecyclerView notifRecycler;
     NotifAdapter notifAdapter;
     LinearLayoutManager linearLayoutManager;
-    DBAdapter db;
+    NotifDBAdapter db;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -69,7 +62,7 @@ public class HomeFragment extends Fragment {
         notifRecycler = view.findViewById(R.id.notifRecycler);
         notifList = new ArrayList<>();
 
-        db = new DBAdapter(getContext());
+        db = new NotifDBAdapter(getContext());
 
         notifList = db.getNotifList("0");
         Collections.sort(notifList, notifComparator);
@@ -84,8 +77,9 @@ public class HomeFragment extends Fragment {
         notifCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), CreateNotif.class);
+                Intent i = new Intent(getActivity(), CreateNote.class);
                 i.putExtra("mode","create");
+                i.putExtra("note","quick");
                 startActivity(i);
             }
         });

@@ -2,12 +2,7 @@ package myproject.sg.notenote;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -35,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavView);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer,homeFragment).commit();
 
-        DBAdapter db = new DBAdapter(this);
+        NotifDBAdapter db = new NotifDBAdapter(this);
         ArrayList<Notif> notifs = new ArrayList<>();
         notifs = db.getNotifList("0");//get actve notifs
         for (Notif n: notifs) {

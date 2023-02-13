@@ -1,8 +1,6 @@
 package myproject.sg.notenote;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,7 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
 
     ArrayList<Notif> notifList;
     int viewType; //view type, 0 for active notif obj, 1 for history
-    DBAdapter db;
+    NotifDBAdapter db;
 
     public NotifAdapter(ArrayList<Notif> _notifList, int _viewType){
         this.notifList = _notifList;
@@ -36,7 +34,7 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
 
     @Override
     public void onBindViewHolder(@NonNull NotifViewHolder holder, int position) {
-        db = new DBAdapter(holder.itemView.getContext());
+        db = new NotifDBAdapter(holder.itemView.getContext());
         Notif notif = notifList.get(position);
         holder.titleRow.setText(notif.getTitle());
         holder.messageRow.setText(notif.getMessage());
@@ -60,9 +58,10 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
             holder.editRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(holder.itemView.getContext(), CreateNotif.class);
+                    Intent i = new Intent(holder.itemView.getContext(), CreateNote.class);
                     i.putExtra("mode","edit");
                     i.putExtra("notif", notif);
+                    i.putExtra("note","quick");
                     holder.itemView.getContext().startActivity(i);
                 }
             });

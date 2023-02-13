@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import myproject.sg.notenote.DBAdapter;
+import myproject.sg.notenote.NotifDBAdapter;
 import myproject.sg.notenote.Notif;
 import myproject.sg.notenote.NotifAdapter;
 import myproject.sg.notenote.R;
@@ -32,7 +32,7 @@ public class HistoryFragment extends Fragment {
     RecyclerView historyRecycler;
     NotifAdapter historyAdapter;
     LinearLayoutManager linearLayoutManager;
-    DBAdapter db;
+    NotifDBAdapter db;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -58,7 +58,7 @@ public class HistoryFragment extends Fragment {
         historyRecycler = view.findViewById(R.id.historyRecycler);
         notifList = new ArrayList<>();
 
-        db = new DBAdapter(getContext());
+        db = new NotifDBAdapter(getContext());
 
         notifList = db.getNotifList("1");//status 1 indicates completed (aka history)
         Collections.sort(notifList, notifComparator);
