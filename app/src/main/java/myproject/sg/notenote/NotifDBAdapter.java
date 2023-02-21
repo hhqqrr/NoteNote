@@ -25,11 +25,13 @@ public class NotifDBAdapter extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE NOTIF (UID TEXT PRIMARY KEY, INSTANT TEXT, TITLE TEXT, MESSAGE TEXT, STATUS TEXT, BUILDERID INT)");
+        sqLiteDatabase.execSQL("CREATE TABLE DETAILNOTE (UID TEXT PRIMARY KEY, INSTANT TEXT, TITLE TEXT, MESSAGE TEXT, STATUS TEXT, BUILDERID INT)");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS NOTIF");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS DETAILNOTE");
         onCreate(sqLiteDatabase);
     }
 

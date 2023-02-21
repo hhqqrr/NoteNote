@@ -1,6 +1,8 @@
 package myproject.sg.notenote;
 
-public class DetailNote {
+import java.io.Serializable;
+
+public class DetailNote implements Serializable {
     private String uid;
     private String instant;
     private String title;

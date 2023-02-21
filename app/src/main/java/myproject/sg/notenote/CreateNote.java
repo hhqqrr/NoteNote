@@ -40,7 +40,7 @@ public class CreateNote extends AppCompatActivity {
                 notifToEdit = (Notif) i.getSerializableExtra("notif");
             }
             else if(mode.equals("edit") && note.equals("detail")){
-                noteToEdit = (DetailNote) i.getSerializableExtra("note");
+                noteToEdit = (DetailNote) i.getSerializableExtra("detailNote");
             }
             else{
                 notifToEdit = null;
@@ -50,8 +50,6 @@ public class CreateNote extends AppCompatActivity {
         else{
             mode = "create";//set mode to create by default
         }
-
-        NotifDBAdapter db = new NotifDBAdapter(this);
 
         titleInput = findViewById(R.id.titleInput);
         messageInput = findViewById(R.id.messageInput);
@@ -63,37 +61,21 @@ public class CreateNote extends AppCompatActivity {
 
         titleInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
-            public void afterTextChanged(Editable editable) {
-                titleCount.setText(editable.toString().length() + "/20");
-            }
+            public void afterTextChanged(Editable editable) {titleCount.setText(editable.toString().length() + "/20");}
         });
 
-        if (note.equals("quick")){
-            messageCount.setText("0/100");
-        }
-        else{
-            messageCount.setText("0/10000");
-        }
+        if (note.equals("quick")){messageCount.setText("0/100");}
+        else{messageCount.setText("0/10000");}
 
         messageInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
                 Integer i =100;
@@ -103,6 +85,7 @@ public class CreateNote extends AppCompatActivity {
         });
 
         if(mode.equals("create") && note.equals("quick")){//create new NOTIFICATION mode
+            NotifDBAdapter db = new NotifDBAdapter(this);
             titleActivity.setText("Create Notification");
             createBtn.setText("Create");
 
@@ -124,6 +107,7 @@ public class CreateNote extends AppCompatActivity {
             });
         }
         else if (mode.equals("edit") && note.equals("quick")){//edit previous NOTIFICATION mode
+            NotifDBAdapter db = new NotifDBAdapter(this);
             titleActivity.setText("Edit Notification");
             createBtn.setText("Save");
             titleInput.setText(notifToEdit.getTitle());
@@ -143,7 +127,8 @@ public class CreateNote extends AppCompatActivity {
                 }
             });
         }
-        else if (mode.equals("create") && note.equals("detail")){
+        else if (mode.equals("create") && note.equals("detail")){ //create new DETAIL note
+            DetailNoteDBAdapter db = new DetailNoteDBAdapter(this);
             titleActivity.setText("Create Detail Note");
             createBtn.setText("Create");
             InputFilter[] filters = new InputFilter[1];
@@ -151,10 +136,44 @@ public class CreateNote extends AppCompatActivity {
             messageInput.setFilters(filters);
             messageInput.setHint("max: 10,000 char");
 
+            createBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if((titleInput.getText().toString().matches("") == false) && (messageInput.getText().toString().matches("") == false)){ //check if input is null
+                        //create note
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            DetailNote detailNote = new DetailNote(UUID.randomUUID().toString(), Instant.now().toString(),titleInput.getText().toString().trim(), messageInput.getText().toString().trim(), "0",db.createIdDetailNote());
+                            db.addDetailNote(detailNote);
+                            finish();
+                        }
+                    }
+                    else{
+                        Toast.makeText(CreateNote.this,"Please fill in all fields",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
         }
-        else if (mode.equals("edit") && note.equals("detail")){
-
+        else if (mode.equals("edit") && note.equals("detail")){ //edit DETAIL note
+            DetailNoteDBAdapter db = new DetailNoteDBAdapter(this);
+            titleActivity.setText("Edit Detail Note");
+            createBtn.setText("Save");
+            titleInput.setText(noteToEdit.getTitle());
+            messageInput.setText(noteToEdit.getMessage());
+            createBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if((titleInput.getText().toString().matches("") == false) && (messageInput.getText().toString().matches("") == false)){
+                        Boolean executed = db.editDetailNote(noteToEdit, titleInput.getText().toString().trim(), messageInput.getText().toString().trim(), CreateNote.this);
+                        if(executed){//function returns true if the query is executed
+                            finish();
+                        }//else do nothing
+                    }
+                    else{//validation error
+                        Toast.makeText(CreateNote.this,"Please fill in all fields",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
 
